@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<form style="padding-top: 100px;
+padding-left: 50px;">
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputEmail">Your Email Address</label>
+      <input type="email" class="form-control" id="inputEmail" placeholder="yatharthrai16@ducic.ac.in">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="inputPassword">Your Password</label>
+      <input type="password" class="form-control" id="inputPassword" placeholder="What's My Password?">
+    </div>
+  </div>
+  <div class="form-group col-md-11" style="padding-left: 2px;">
+  <label for="TextArea">Email To Send</label>
+  <textarea class="form-control" id="emailMessage" rows="10" placeholder="Dear Yatharth"></textarea>
+</div>
+<div class="form-group">
+  <label for="FormControlFile1">Attachment</label>
+  <input type="file" class="form-control-file" id="attachment_">
+</div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% endblock %}
