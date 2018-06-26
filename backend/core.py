@@ -6,7 +6,7 @@ from datetime import datetime
 def email_find(name_is):
     email_regex = re.compile(r'\S+@\S+')
     try:
-        if name_is[-3:].lower()  == 'txt':
+        if name_is[-4:].lower()  == '.txt' or name_is[-4:].lower() == '.csv':
             f = open(name_is,"r")
             contents = f.read()
             f.close()
