@@ -3,22 +3,25 @@ import csv
 from flask_mail import Mail, Message
 from datetime import datetime
 
-def email_find(name_is):
-    email_regex = re.compile(r'\S+@\S+')
+def email_find(name_is, csv_extract=True):
+    email_regex = re.compile(r'[\w\.-]+@[\w\.-]+')
     try:
         if name_is[-4:].lower()  == '.txt' or name_is[-4:].lower() == '.csv':
             f = open(name_is,"r")
             contents = f.read()
             f.close()
             email_list = email_regex.findall(contents)
-            current_name = datetime.now().strftime("%Y-%m-%d %H-%M-%S") + '.csv'
-            with open(current_name, "w") as csv_file:
-                    writer = csv.writer(csv_file)
-                    for email in email_list:
-                        writer.writerow([email])
-            return True
+            if csv_extract is True:
+                current_name = datetime.now().strftime("%Y-%m-%d %H-%M-%S") + '.csv'
+                with open(current_name, "w") as csv_file:
+                        writer = csv.writer(csv_file)
+                        for email in email_list:
+                            writer.writerow([email])
+                return True
+            else:
+                return email_list
         else:
-            raise Exception("That's not a .TXT file")
+            raise Exception("That's not a file we can read")
     except Exception as e:
         return e
 
