@@ -28,7 +28,7 @@ def email_find(name_is, csv_extract=True):
         return e
 
 def validate_recipient(email):
-
+    fromAddress = 'yatharthrai16@ducic.ac.in'
     addressToVerify = str(email)
 
     # Get domain for DNS lookup

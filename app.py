@@ -31,6 +31,7 @@ def extractmail():
 @app.route('/sendmail', methods=['GET', 'POST'])
 def sendmail():
     # Did the user click the SUBMIT button?
+    f_ = open('Completed_Steps.txt', 'w')
     if request.method == 'POST':
         try:
                 # Let's initialize what is required!
@@ -40,9 +41,11 @@ def sendmail():
                                   MAIL_USE_SSL=True,
                                   MAIL_USERNAME = request.form['senderemail'],
                                   MAIL_PASSWORD = request.form['senderpassword'])
+                f_.write("Initialized!" + "\n")
                 # Let's create a Mail Object with the settings!
                 mail = Mail(app)
                 placeholder_ = core.email_find(request.form['emaillist'], csv_extract=False)
+                f_.write("Passed to be extracted" + "\n")
                 if(type(placeholder_) == list):
                     a = placeholder_
                 else:
@@ -51,17 +54,18 @@ def sendmail():
                     b = request.form['recipientemail'].split()
                 except:
                     b = []
-
                 giant_list = a + b
                 final_list = []
+                f_.write(str(giant_list))
+                f_.write("\n")
                 #Let's find the faulty emails!
                 f = open('Faulty_Email.txt', 'w')
                 for recipe in giant_list:
                     try:
                         criteria = core.validate_recipient(recipe)
-                        f.write(criteria + "\n")
+                        f_.write("{} = {} \n".format(recipe, criteria))
                     except Exception as e:
-                        f.write(str(e) + "\n")
+                        f_.write("Exception caught {} = {} \n".format(e, recipe))
                         continue
                     if criteria == True:
                         final_list = final_list + [recipe]
@@ -70,12 +74,15 @@ def sendmail():
                         continue
                 f.close()
                 # Let's mail the working emails!
+                f_.write(str(final_list))
+                f_.write("\n")
                 for working_email in final_list:
                     msg = Message(request.form['emailsubject'],
                                   sender="<"+request.form['sendertitle']+">",
                                   recipients=[working_email])
                     msg.body = request.form['emailcontent']
                     mail.send(msg)
+                f_.close()
                 # Inform me at least, will ya?
                 msg_ = Message("National Innovation Foundation just opened the application",
                                sender="<NIF App Notification>",
