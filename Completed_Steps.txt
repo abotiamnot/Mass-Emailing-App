@@ -1,0 +1,5 @@
+Initialized!
+Passed to be extracted
+['yatharthrai16@ducic.ac.in']
+yatharthrai16@ducic.ac.in = True 
+['yatharthrai16@ducic.ac.in']

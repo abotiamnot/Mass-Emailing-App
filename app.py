@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, url_for, redirect
 from flask_mail import Mail, Message, Attachment
-import sys, os
+import sys, os, mimetypes
 
 import backend.core as core
 
@@ -81,6 +81,11 @@ def sendmail():
                                   sender="<"+request.form['sendertitle']+">",
                                   recipients=[working_email])
                     msg.body = request.form['emailcontent']
+                    if request.form['emailattachment']:
+                        path_attach = os.path.join(os.getcwd(), request.form['emailattachment'])
+                        with app.open_resource(path_attach) as fp:
+                            mimetype = mimetypes.guess_type(path_attach)
+                            msg.attach(request.form['emailattachment'], mimetype[0], fp.read())
                     mail.send(msg)
                 f_.close()
                 # Inform me at least, will ya?
